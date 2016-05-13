@@ -9,4 +9,8 @@ public class TrpcException extends Exception {
 	public TrpcException(String msg) {
 		super(msg);
 	}
+	
+	public TrpcException(Exception e){
+		super(e);
+	}
 }
