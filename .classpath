@@ -5,16 +5,15 @@
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/curator/curator-framework/3.1.0/curator-framework-3.1.0.jar" sourcepath="M2_REPO/org/apache/curator/curator-framework/3.1.0/curator-framework-3.1.0-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/curator/curator-client/3.1.0/curator-client-3.1.0.jar" sourcepath="M2_REPO/org/apache/curator/curator-client/3.1.0/curator-client-3.1.0-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/zookeeper/zookeeper/3.5.1-alpha/zookeeper-3.5.1-alpha.jar" sourcepath="M2_REPO/org/apache/zookeeper/zookeeper/3.5.1-alpha/zookeeper-3.5.1-alpha-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/curator/curator-framework/2.9.1/curator-framework-2.9.1.jar" sourcepath="M2_REPO/org/apache/curator/curator-framework/2.9.1/curator-framework-2.9.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/curator/curator-client/2.9.1/curator-client-2.9.1.jar" sourcepath="M2_REPO/org/apache/curator/curator-client/2.9.1/curator-client-2.9.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/zookeeper/zookeeper/3.4.6/zookeeper-3.4.6.jar" sourcepath="M2_REPO/org/apache/zookeeper/zookeeper/3.4.6/zookeeper-3.4.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/commons-cli/commons-cli/1.2/commons-cli-1.2.jar" sourcepath="M2_REPO/commons-cli/commons-cli/1.2/commons-cli-1.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.16/log4j-1.2.16.jar" sourcepath="M2_REPO/log4j/log4j/1.2.16/log4j-1.2.16-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/jline/jline/0.9.94/jline-0.9.94.jar" sourcepath="M2_REPO/jline/jline/0.9.94/jline-0.9.94-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/io/netty/netty/4.0.0.Alpha8/netty-4.0.0.Alpha8.jar" sourcepath="M2_REPO/io/netty/netty/4.0.0.Alpha8/netty-4.0.0.Alpha8-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/net/java/dev/javacc/javacc/5.0/javacc-5.0.jar" sourcepath="M2_REPO/net/java/dev/javacc/javacc/5.0/javacc-5.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/guava/guava/16.0.1/guava-16.0.1.jar" sourcepath="M2_REPO/com/google/guava/guava/16.0.1/guava-16.0.1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/curator/curator-recipes/3.1.0/curator-recipes-3.1.0.jar" sourcepath="M2_REPO/org/apache/curator/curator-recipes/3.1.0/curator-recipes-3.1.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/curator/curator-recipes/2.9.1/curator-recipes-2.9.1.jar" sourcepath="M2_REPO/org/apache/curator/curator-recipes/2.9.1/curator-recipes-2.9.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar" sourcepath="M2_REPO/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4.jar" sourcepath="M2_REPO/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4-sources.jar"/>
