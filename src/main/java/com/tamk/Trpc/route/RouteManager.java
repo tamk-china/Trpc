@@ -20,6 +20,9 @@ import org.apache.zookeeper.CreateMode;
 
 import com.tamk.Trpc.exception.TrpcException;
 
+/**
+ * @author kuanqiang.tkq
+ */
 public class RouteManager {
 	public static final RouteManager INSTANCE = new RouteManager();
 
