@@ -30,8 +30,8 @@
 		<!-- netty -->
 		<dependency>
 			<groupId>io.netty</groupId>
-			<artifactId>netty</artifactId>
-			<version>4.0.0.Alpha8</version>
+			<artifactId>netty-all</artifactId>
+			<version>5.0.0.Alpha2</version>
 		</dependency>
 
 		<!-- apache commons -->
@@ -46,6 +46,12 @@
 			<version>3.4</version>
 		</dependency>
 
+		<!-- google -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
 
 	</dependencies>
 </project>

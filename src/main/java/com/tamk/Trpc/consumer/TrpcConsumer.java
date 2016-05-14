@@ -42,7 +42,7 @@ public class TrpcConsumer implements InvocationHandler {
 		invokeTO.setParamClasses(method.getParameterTypes());
 		invokeTO.setParams(params);
 		
-		
+		return null;
 	}
 
 }
