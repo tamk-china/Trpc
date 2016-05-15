@@ -6,8 +6,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
-import org.apache.commons.io.IOUtils;
-
 import com.tamk.Trpc.balence.RoundRobinBalencer;
 import com.tamk.Trpc.exception.TrpcException;
 import com.tamk.Trpc.pool.ConnectorPool;
@@ -15,6 +13,7 @@ import com.tamk.Trpc.protocol.InvokeTO;
 import com.tamk.Trpc.route.IpCache;
 import com.tamk.Trpc.route.RouteManager;
 import com.tamk.Trpc.utils.SerializationUtils;
+import com.tamk.Trpc.utils.SocketUtils;
 
 /**
  * @author kuanqiang.tkq
@@ -65,18 +64,12 @@ public class TrpcConsumer implements InvocationHandler {
 			throw new TrpcException(String.format("inputStream of socket not exist [interfaceName = %s]", interfaceName));
 		}
 		
-		//byte[] result = new byte[]
-		//return SerializationUtils.deserialize()
-		
-		return null;
-	}
-
-	private int getOffset(byte[] bytes) {
-		if (null == bytes || bytes.length < 4) {
-			throw new IllegalArgumentException();
+		byte[] result = SocketUtils.readObj(socketIS);
+		if(null == result){
+			throw new TrpcException(String.format("bytes read null [interfaceName = %s]", interfaceName));
 		}
-
-		return bytes[0] << 24 + bytes[1] << 16 + bytes[2] << 8 + bytes[3];
+		
+		return SerializationUtils.deserialize(result);
 	}
 
 }

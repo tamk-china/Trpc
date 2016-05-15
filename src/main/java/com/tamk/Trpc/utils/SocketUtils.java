@@ -1,20 +1,26 @@
 package com.tamk.Trpc.utils;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * @author kuanqiang.tkq
  */
-public class SerializationUtils {
-	public static <T extends Serializable> byte[] serialize(T obj) {
-		return org.apache.commons.lang3.SerializationUtils.serialize(obj);
+public class SocketUtils {
+	public static byte[] readObj(InputStream is) throws IOException {
+		byte[] size = IOUtils.readFully(is, 4);
+		return IOUtils.readFully(is, getUnsignedInt(size));
 	}
 
-	public static <T extends Serializable> T deserialize(byte[] data) {
-		return org.apache.commons.lang3.SerializationUtils.deserialize(data);
+	public static void writeObj(OutputStream os, byte[] obj) throws IOException {
+		IOUtils.write(getBytes(obj.length), os);
+		IOUtils.write(obj, os);
 	}
 
-	public static int getUnsignedInt(byte[] bytes) {
+	private static int getUnsignedInt(byte[] bytes) {
 		if (null == bytes || bytes.length < 4) {
 			throw new IllegalArgumentException();
 		}
@@ -23,7 +29,7 @@ public class SerializationUtils {
 				+ (bytes[3] < 0 ? (256 + bytes[3]) : bytes[3]);
 	}
 
-	public static byte[] getBytes(int unsignedInt) {
+	private static byte[] getBytes(int unsignedInt) {
 		byte[] bytes = new byte[4];
 
 		bytes[0] = (byte) ((unsignedInt >> 24) & 255);

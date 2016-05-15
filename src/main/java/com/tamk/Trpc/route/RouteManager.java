@@ -26,7 +26,7 @@ import com.tamk.Trpc.exception.TrpcException;
 public class RouteManager {
 	public static final RouteManager INSTANCE = new RouteManager();
 
-	private static final String ZK_CONNECTS = "192.168.0.102:2181,192.168.0.102:2182,192.168.0.102:2183";
+	private static final String ZK_CONNECTS = "zk.tamk.com:2181,zk.tamk.com:2182,zk.tamk.com:2183";
 	private static final String NAMESPACE = "Trpc";
 	private static final String CONSUMER_PATH = "consumer";
 	private static final String PROVIDER_PATH = "provider";
