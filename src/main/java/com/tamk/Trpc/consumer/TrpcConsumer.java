@@ -20,7 +20,6 @@ import com.tamk.Trpc.utils.SocketUtils;
  */
 public class TrpcConsumer implements InvocationHandler {
 	private String interfaceName;
-	private Object proxy;
 
 	public String getInterfaceName() {
 		return interfaceName;
@@ -28,14 +27,6 @@ public class TrpcConsumer implements InvocationHandler {
 
 	public void setInterfaceName(String interfaceName) {
 		this.interfaceName = interfaceName;
-	}
-
-	public Object getProxy() {
-		return proxy;
-	}
-
-	public void setProxy(Object proxy) {
-		this.proxy = proxy;
 	}
 
 	public void init() throws TrpcException {
@@ -50,7 +41,7 @@ public class TrpcConsumer implements InvocationHandler {
 		invokeTO.setParamClasses(method.getParameterTypes());
 		invokeTO.setParams(params);
 
-		Socket socket = ConnectorPool.INSTANCE.getSocket(interfaceName, RoundRobinBalencer.INSTANCE.getNextIp(interfaceName, IpCache.INSTANCE.get(interfaceName)));
+		Socket socket = ConnectorPool.INSTANCE.getSocket(RoundRobinBalencer.INSTANCE.getNextIp(interfaceName, IpCache.INSTANCE.get(interfaceName)));
 		
 		OutputStream socketOS = socket.getOutputStream();
 		if (null == socketOS) {

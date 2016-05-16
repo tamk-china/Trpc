@@ -23,6 +23,7 @@ public class RoundRobinBalencer {
 			throw new IllegalArgumentException();
 		}
 
-		return ips.get((int) ((rrPos.putIfAbsent(interfaceName, new AtomicLong(0)).incrementAndGet()) % ips.size()));
+		AtomicLong pos = rrPos.putIfAbsent(interfaceName, new AtomicLong(0));
+		return ips.get((int) (((null == pos) ? 0 : pos.incrementAndGet()) % ips.size()));
 	}
 }

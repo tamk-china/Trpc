@@ -35,12 +35,12 @@ public class ConnectorPool {
 	private ConnectorPool() {
 	}
 
-	public Socket getSocket(final String interfaceName, final String ip) throws ExecutionException {
-		if (StringUtils.isEmpty(interfaceName) || StringUtils.isEmpty(ip)) {
+	public Socket getSocket(final String ip) throws ExecutionException {
+		if (StringUtils.isEmpty(ip)) {
 			throw new IllegalArgumentException();
 		}
 
-		return pool.get(interfaceName + "_" + ip, new Callable<Socket>() {
+		return pool.get(ip, new Callable<Socket>() {
 			@Override
 			public Socket call() throws Exception {
 				Socket socket = new Socket(ip, Constants.PROVIDER_PORT);
@@ -54,9 +54,9 @@ public class ConnectorPool {
 	}
 
 	public static void main(String[] args) throws ExecutionException, InterruptedException {
-		System.out.println(ConnectorPool.INSTANCE.getSocket("haha", "192.168.0.102"));
-		System.out.println(ConnectorPool.INSTANCE.getSocket("haha", "192.168.0.102"));
+		System.out.println(ConnectorPool.INSTANCE.getSocket("192.168.0.102"));
+		System.out.println(ConnectorPool.INSTANCE.getSocket("192.168.0.102"));
 		Thread.sleep(10000);
-		System.out.println(ConnectorPool.INSTANCE.getSocket("haha", "192.168.0.102"));
+		System.out.println(ConnectorPool.INSTANCE.getSocket("192.168.0.102"));
 	}
 }

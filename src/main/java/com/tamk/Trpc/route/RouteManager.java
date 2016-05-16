@@ -1,6 +1,5 @@
 package com.tamk.Trpc.route;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +11,9 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
+import org.apache.curator.framework.recipes.cache.PathChildrenCache.StartMode;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
-import org.apache.curator.framework.recipes.cache.PathChildrenCache.StartMode;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 
@@ -113,18 +112,8 @@ public class RouteManager {
 	}
 
 	private String getLocalAddress() throws UnknownHostException {
-		return InetAddress.getLocalHost().getHostAddress();
-	}
-	
-	public static void main(String[] args){
-		try {
-			final String interfaceName = "testProvider";
-			RouteManager.INSTANCE.registerProvider(interfaceName);
-			RouteManager.INSTANCE.registerConsumer(interfaceName);
-			System.out.println(IpCache.INSTANCE.get(interfaceName));
-		} catch (TrpcException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// TODO
+		return "192.168.0.100";
+		//return InetAddress.getLocalHost().getHostAddress();
 	}
 }

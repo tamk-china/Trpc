@@ -1,7 +1,14 @@
 package com.tamk.Trpc.provider;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,7 +21,7 @@ import com.tamk.Trpc.route.RouteManager;
 /**
  * @author kuanqiang.tkq
  */
-public class TrpcProvider {
+public class TrpcProvider extends ChannelHandlerAdapter {
 	private static Map<String, Object> invokers = new ConcurrentHashMap<String, Object>();
 	private String interfaceName;
 	private Object invoker;
@@ -27,7 +34,16 @@ public class TrpcProvider {
 		this.interfaceName = interfaceName;
 	}
 
+	public Object getInvoker() {
+		return invoker;
+	}
+
+	public void setInvoker(Object invoker) {
+		this.invoker = invoker;
+	}
+
 	public void init() throws TrpcException {
+		TrpcProxy.INSTANCE.init();
 		if (StringUtils.isEmpty(interfaceName)) {
 			throw new TrpcException("interface can not null");
 		}
@@ -39,7 +55,9 @@ public class TrpcProvider {
 		invokers.put(interfaceName, invoker);
 	}
 
-	public Object invoke(InvokeTO param) throws TrpcException {
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws UnsupportedEncodingException, TrpcException {
+		InvokeTO param = (InvokeTO) msg;
 		if (null == param) {
 			throw new IllegalArgumentException();
 		}
@@ -51,7 +69,12 @@ public class TrpcProvider {
 
 		try {
 			Method m = invoker.getClass().getMethod(param.getFunctionName(), param.getParamClasses());
-			return m.invoke(invoker, param.getParams());
+			if (null == m) {
+				throw new TrpcException(String.format("method not exist [functionName = %s] [funcParams = %s]", param.getFunctionName(), param.getParamClasses()));
+			}
+
+			Object result = m.invoke(invoker, param.getParams());
+			ctx.write(result);
 		} catch (NoSuchMethodException e) {
 			throw new TrpcException(e);
 		} catch (SecurityException e) {
@@ -63,5 +86,18 @@ public class TrpcProvider {
 		} catch (InvocationTargetException e) {
 			throw new TrpcException(e);
 		}
+
+		ByteBuf resq = Unpooled.copiedBuffer(new Date().toString().getBytes());
+		ctx.write(resq);
+	}
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		ctx.close();
+	}
+
+	@Override
+	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+		ctx.flush();
 	}
 }
