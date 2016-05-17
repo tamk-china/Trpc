@@ -1,5 +1,6 @@
 package com.tamk.Trpc.route;
 
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,8 +113,6 @@ public class RouteManager {
 	}
 
 	private String getLocalAddress() throws UnknownHostException {
-		// TODO
-		return "192.168.0.100";
-		//return InetAddress.getLocalHost().getHostAddress();
+		return InetAddress.getLocalHost().getHostAddress();
 	}
 }
