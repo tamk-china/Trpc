@@ -21,9 +21,9 @@ public class TrpcProxy {
 			ServerBootstrap bootstrap = new ServerBootstrap();
 			bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024).childHandler(new InvokerChildrenHandler());
 			ChannelFuture f = bootstrap.bind(Constants.PROVIDER_PORT).sync();
-			f.channel().close().sync();
+			f.channel().closeFuture().sync();
 		} catch (InterruptedException e) {
-			
+			e.printStackTrace();
 		} finally {
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();

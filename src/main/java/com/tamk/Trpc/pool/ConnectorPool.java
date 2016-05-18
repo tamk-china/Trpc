@@ -52,11 +52,4 @@ public class ConnectorPool {
 			}
 		});
 	}
-
-	public static void main(String[] args) throws ExecutionException, InterruptedException {
-		System.out.println(ConnectorPool.INSTANCE.getSocket("192.168.0.102"));
-		System.out.println(ConnectorPool.INSTANCE.getSocket("192.168.0.102"));
-		Thread.sleep(10000);
-		System.out.println(ConnectorPool.INSTANCE.getSocket("192.168.0.102"));
-	}
 }
