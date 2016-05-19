@@ -1,12 +1,17 @@
 package com.tamk.Trpc.test;
 
+import java.util.Random;
+
 import com.tamk.Trpc.exception.TrpcException;
 import com.tamk.Trpc.provider.TrpcProvider;
 
 public class TestProviderImpl implements TestProvider {
 	@Override
-	public String sayHello(int i) {
-		return "hello Trpc " + i;
+	public User sayHello(int i) {
+		User user = new User();
+		user.setId(new Random().nextLong());
+		user.setName("tamk");
+		return user;
 	}
 
 	public static void main(String[] args) throws InterruptedException, TrpcException {

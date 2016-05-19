@@ -19,7 +19,7 @@ public class RoundRobinBalencer {
 	private Map<String, AtomicLong> rrPos = new ConcurrentHashMap<String, AtomicLong>();
 
 	public String getNextIp(final String interfaceName, final List<String> ips) {
-		if (StringUtils.isEmpty(interfaceName) || null == ips) {
+		if (StringUtils.isEmpty(interfaceName) || null == ips || ips.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 

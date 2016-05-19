@@ -6,8 +6,10 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 import java.util.List;
 
+import org.apache.commons.lang3.SerializationUtils;
+
 import com.tamk.Trpc.protocol.InvokeTO;
-import com.tamk.Trpc.utils.SerializationUtils;
+import com.tamk.Trpc.utils.ProtocolUtils;
 
 public class TrpcDecoder extends ByteToMessageDecoder{
 	public static final int HEAD_LENGTH = 4;
@@ -19,7 +21,7 @@ public class TrpcDecoder extends ByteToMessageDecoder{
 		}
 		
 		in.markReaderIndex();
-		int dataLength = in.readInt();
+		int dataLength = ProtocolUtils.getUnsignedInt(in.readBytes(HEAD_LENGTH).array());
 		if(dataLength < 0){
 			ctx.close();
 			return;

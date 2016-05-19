@@ -5,18 +5,20 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.tamk.Trpc.exception.TrpcException;
 import com.tamk.Trpc.protocol.InvokeTO;
 import com.tamk.Trpc.route.RouteManager;
+import com.tamk.Trpc.utils.ProtocolUtils;
 
 /**
  * @author kuanqiang.tkq
@@ -74,7 +76,13 @@ public class TrpcProvider extends ChannelHandlerAdapter {
 			}
 
 			Object result = m.invoke(invoker, param.getParams());
-			ctx.write(result);
+			if (!Serializable.class.isAssignableFrom(result.getClass())) {
+				throw new TrpcException("result not serializable");
+			}
+
+			byte[] body = SerializationUtils.serialize((Serializable) result);
+			ByteBuf resp = Unpooled.copiedBuffer(ProtocolUtils.getBytes(body.length), body);
+			ctx.write(resp);
 		} catch (NoSuchMethodException e) {
 			throw new TrpcException(e);
 		} catch (SecurityException e) {
@@ -86,9 +94,6 @@ public class TrpcProvider extends ChannelHandlerAdapter {
 		} catch (InvocationTargetException e) {
 			throw new TrpcException(e);
 		}
-
-		ByteBuf resq = Unpooled.copiedBuffer(new Date().toString().getBytes());
-		ctx.write(resq);
 	}
 
 	@Override

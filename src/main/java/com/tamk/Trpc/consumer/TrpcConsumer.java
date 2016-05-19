@@ -6,14 +6,16 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.SerializationUtils;
+
 import com.tamk.Trpc.balence.RoundRobinBalencer;
 import com.tamk.Trpc.exception.TrpcException;
 import com.tamk.Trpc.pool.ConnectorPool;
 import com.tamk.Trpc.protocol.InvokeTO;
 import com.tamk.Trpc.route.IpCache;
 import com.tamk.Trpc.route.RouteManager;
-import com.tamk.Trpc.utils.SerializationUtils;
-import com.tamk.Trpc.utils.SocketUtils;
+import com.tamk.Trpc.utils.ProtocolUtils;
 
 /**
  * @author kuanqiang.tkq
@@ -42,24 +44,28 @@ public class TrpcConsumer implements InvocationHandler {
 		invokeTO.setParams(params);
 
 		Socket socket = ConnectorPool.INSTANCE.getSocket(RoundRobinBalencer.INSTANCE.getNextIp(interfaceName, IpCache.INSTANCE.get(interfaceName)));
-		
+
 		OutputStream socketOS = socket.getOutputStream();
 		if (null == socketOS) {
 			throw new TrpcException(String.format("outputStream of socket not exist [interfaceName = %s]", interfaceName));
 		}
-		socketOS.write(SerializationUtils.serialize(invokeTO));
+
+		byte[] body = SerializationUtils.serialize(invokeTO);
+		if (0 == body.length) {
+			throw new TrpcException(String.format("req body empty [interfaceName = %s]", interfaceName));
+		}
+		socketOS.write(ProtocolUtils.getBytes(body.length));
+		socketOS.write(body);
 		socketOS.flush();
 
 		InputStream socketIS = socket.getInputStream();
 		if (null == socketIS) {
 			throw new TrpcException(String.format("inputStream of socket not exist [interfaceName = %s]", interfaceName));
 		}
-		
-		byte[] result = SocketUtils.readObj(socketIS);
-		if(null == result){
-			throw new TrpcException(String.format("bytes read null [interfaceName = %s]", interfaceName));
-		}
-		
+
+		int bodyLength = ProtocolUtils.getUnsignedInt(IOUtils.readFully(socketIS, 4));
+		byte[] result = IOUtils.readFully(socketIS, bodyLength);
+
 		return SerializationUtils.deserialize(result);
 	}
 

@@ -15,29 +15,37 @@ public class TrpcProxy {
 	public static final TrpcProxy INSTANCE = new TrpcProxy();
 
 	private TrpcProxy() {
-		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-		EventLoopGroup workerGroup = new NioEventLoopGroup(20);
-		try {
-			ServerBootstrap bootstrap = new ServerBootstrap();
-			bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024).childHandler(new InvokerChildrenHandler());
-			ChannelFuture f = bootstrap.bind(Constants.PROVIDER_PORT).sync();
-			f.channel().closeFuture().sync();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
-			bossGroup.shutdownGracefully();
-			workerGroup.shutdownGracefully();
-		}
+		Thread t = new Thread() {
+			@Override
+			public void run() {
+				EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+				EventLoopGroup workerGroup = new NioEventLoopGroup(20);
+				try {
+					ServerBootstrap bootstrap = new ServerBootstrap();
+					bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024).childHandler(new InvokerChildrenHandler());
+					ChannelFuture f = bootstrap.bind(Constants.PROVIDER_PORT).sync();
+					f.channel().closeFuture().sync();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} finally {
+					bossGroup.shutdownGracefully();
+					workerGroup.shutdownGracefully();
+				}
+			}
+		};
+
+		t.setName("netty init");
+		t.start();
 	}
-	
-	public void init(){}
+
+	public void init() {
+	}
 
 	private static class InvokerChildrenHandler extends ChannelInitializer<SocketChannel> {
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
 			ch.pipeline().addLast(new TrpcDecoder());
 			ch.pipeline().addLast(new TrpcProvider());
-			ch.pipeline().addLast(new TrpcEncoder());
 		}
 	}
 }
