@@ -4,10 +4,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.net.Socket;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.SerializationUtils;
+import org.springframework.beans.factory.FactoryBean;
 
 import com.tamk.Trpc.balence.RoundRobinBalencer;
 import com.tamk.Trpc.exception.TrpcException;
@@ -20,7 +23,7 @@ import com.tamk.Trpc.utils.ProtocolUtils;
 /**
  * @author kuanqiang.tkq
  */
-public class TrpcConsumer implements InvocationHandler {
+public class TrpcConsumer implements InvocationHandler, FactoryBean<Object> {
 	private String interfaceName;
 
 	public String getInterfaceName() {
@@ -67,6 +70,26 @@ public class TrpcConsumer implements InvocationHandler {
 		byte[] result = IOUtils.readFully(socketIS, bodyLength);
 
 		return SerializationUtils.deserialize(result);
+	}
+
+	@Override
+	public Object getObject() throws Exception {
+		Class<?> clazz = ClassUtils.getClass(interfaceName);
+		return clazz.cast(Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[] { clazz }, this));
+	}
+
+	@Override
+	public Class<?> getObjectType() {
+		try {
+			return ClassUtils.getClass(interfaceName);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public boolean isSingleton() {
+		return false;
 	}
 
 }
