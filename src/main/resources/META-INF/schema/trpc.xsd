@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>  
+<xsd:schema xmlns="http://test.hatter.me/schema/test"  
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"   
+	targetNamespace="http://www.tamk.com/schema/trpc">
+
+	<xsd:element name="provider" type"providerType" />
+	<xsd:complexType name="providerType">
+		<xsd:attribute name="id" type="xsd:ID" />
+		<xsd:attribute name="interfaceName" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:element name="consumer" type="consumerType" />
+	<xsd:complexType name="consumerType">
+		<xsd:attribute name="id" type="xsd:ID" />
+		<xsd:attribute name="interfaceName" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:element name="provider-scan" type="providerScanType" />
+	<xsd:complexType name="providerScanType">
+		<xsd:attribute name="package" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:element name="consumer-scan" type="consumerScanType" />
+	<xsd:complexType name="consumerScanType">
+		<xsd:attribute name="package" type="xsd:string" />
+	</xsd:complexType>
+
+</xsd:schema>
