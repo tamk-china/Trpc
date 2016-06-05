@@ -5,24 +5,10 @@
 
 	<xsd:element name="provider" type"providerType" />
 	<xsd:complexType name="providerType">
-		<xsd:attribute name="id" type="xsd:ID" />
-		<xsd:attribute name="interfaceName" type="xsd:string" />
+		<xsd:attribute name="scan-packages" type="xsd:stirng" />
+		<xsd:attribute name="autowired" type="xsd:string" />
 	</xsd:complexType>
 
-	<xsd:element name="consumer" type="consumerType" />
-	<xsd:complexType name="consumerType">
-		<xsd:attribute name="id" type="xsd:ID" />
-		<xsd:attribute name="interfaceName" type="xsd:string" />
-	</xsd:complexType>
-
-	<xsd:element name="provider-scan" type="providerScanType" />
-	<xsd:complexType name="providerScanType">
-		<xsd:attribute name="package" type="xsd:string" />
-	</xsd:complexType>
-
-	<xsd:element name="consumer-scan" type="consumerScanType" />
-	<xsd:complexType name="consumerScanType">
-		<xsd:attribute name="package" type="xsd:string" />
-	</xsd:complexType>
+	<xsd:element name="annotation-consumer" />
 
 </xsd:schema>
