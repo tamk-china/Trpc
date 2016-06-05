@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TrpcProvider {
 	public String interfaceName();
+	
+	public String invoker();
 }

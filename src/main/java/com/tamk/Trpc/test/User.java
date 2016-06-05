@@ -2,7 +2,7 @@ package com.tamk.Trpc.test;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable {
 	private static final long serialVersionUID = -1797683922634622122L;
 	private Long id;
 	private String name;
@@ -26,6 +26,13 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + "]";
+	}
+
+	public class Address {
+	};
+	
+	public static void main(String[] args){
+		System.out.println(Address.class.getName());
 	}
 
 }
